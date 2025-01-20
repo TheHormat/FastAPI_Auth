@@ -30,5 +30,4 @@ def get_google_auth_url():
 
 
 def fetch_google_user(token):
-    id_info = id_token.verify_oauth2_token(token, Request(), GOOGLE_CLIENT_ID)
-    return id_info
+    return id_token.verify_oauth2_token(token, Request(), GOOGLE_CLIENT_ID)

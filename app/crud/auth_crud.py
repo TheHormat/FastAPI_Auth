@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models import User
+from app.db.auth_models import User
 
 def get_user_by_phone_number(db: Session, phone_number: str):
     return db.query(User).filter(User.phone_number == phone_number).first()

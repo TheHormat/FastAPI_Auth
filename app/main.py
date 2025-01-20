@@ -2,9 +2,9 @@ from fastapi import FastAPI, HTTPException, Depends, Request
 import requests
 from requests_oauthlib import OAuth2Session
 from sqlalchemy.orm import Session
-from app.models import User, Base
-from app.schemas import UserRegisterSchema, UserLoginSchema
-from app.database import SessionLocal, engine
+from app.db.auth_models import User, Base
+from app.schemas.auth_schemas import UserRegisterSchema, UserLoginSchema
+from app.db.database import SessionLocal, engine
 from app.auth import create_access_token
 from app.google_auth import (
     GOOGLE_CLIENT_ID,
@@ -14,8 +14,8 @@ from app.google_auth import (
     fetch_google_user,
     get_google_provider_cfg,
 )
-from app.crud import get_user_by_phone_number, create_user
-from app.dependencies import (
+from app.crud.auth_crud import get_user_by_phone_number, create_user
+from app.dependencies.dependencies import (
     get_current_user,
 )
 
@@ -38,9 +38,7 @@ def register_user(user: UserRegisterSchema, db: Session = Depends(get_db)):
     # Validate passwords match
     user.validate_passwords()
 
-    # Check if phone number already exists
-    existing_user = get_user_by_phone_number(db, user.phone_number)
-    if existing_user:
+    if existing_user := get_user_by_phone_number(db, user.phone_number):
         raise HTTPException(status_code=400, detail="Phone number already registered")
 
     # Create a new user instance
@@ -138,5 +136,6 @@ def google_callback(request: Request, db: Session = Depends(get_db)):
 
     except Exception as e:
         raise HTTPException(
-            status_code=400, detail=f"Error during Google authentication: {str(e)}"
-        )
+            status_code=400,
+            detail=f"Error during Google authentication: {str(e)}",
+        ) from e

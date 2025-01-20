@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "gringo"
+name = "venv"
 version = "0.1.0"
 description = ""
 authors = ["TheHormat <thehormat@gmail.com>"]
