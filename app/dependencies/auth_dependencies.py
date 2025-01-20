@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
-from app.auth import verify_access_token
+from app.services.auth_service import verify_access_token
 from app.db.database import SessionLocal
 
 

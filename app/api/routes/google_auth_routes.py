@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from sqlalchemy.orm import Session
-from app.google_auth import get_google_auth_url, fetch_google_user, get_google_provider_cfg
-from app.auth import create_access_token
+from app.services.google_auth_service import get_google_auth_url, fetch_google_user, get_google_provider_cfg
+from app.services.auth_service import create_access_token
 from app.dependencies.auth_dependencies import get_db
 from app.db.auth_models import User
 from app.crud.auth_crud import create_user
-from app.google_auth import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI
+from app.services.google_auth_service import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI
 import requests
 
 router = APIRouter()
