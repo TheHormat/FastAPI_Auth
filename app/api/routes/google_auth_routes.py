@@ -1,14 +1,23 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from sqlalchemy.orm import Session
-from app.services.google_auth_service import get_google_auth_url, fetch_google_user, get_google_provider_cfg
+from app.services.google_auth_service import (
+    get_google_auth_url,
+    fetch_google_user,
+    get_google_provider_cfg,
+)
 from app.services.auth_service import create_access_token
-from app.dependencies.auth_dependencies import get_db
+from app.main import get_db
 from app.db.auth_models import User
 from app.crud.auth_crud import create_user
-from app.services.google_auth_service import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI
+from app.services.google_auth_service import (
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    REDIRECT_URI,
+)
 import requests
 
 router = APIRouter()
+
 
 @router.get("/auth/google/login")
 def google_login():
@@ -49,7 +58,12 @@ def google_callback(request: Request, db: Session = Depends(get_db)):
 
     existing_user = db.query(User).filter(User.email == email).first()
     if not existing_user:
-        user_data = {"username": name, "email": email, "phone_number": None, "password_hash": None}
+        user_data = {
+            "username": name,
+            "email": email,
+            "phone_number": None,
+            "password_hash": None,
+        }
         create_user(db, user_data)
 
     access_token = create_access_token(data={"sub": email})

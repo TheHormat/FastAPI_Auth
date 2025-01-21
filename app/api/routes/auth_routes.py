@@ -2,8 +2,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.schemas.auth_schemas import UserRegisterSchema, UserLoginSchema
 from app.crud.auth_crud import get_user_by_phone_number
-from app.dependencies.auth_dependencies import get_current_user, get_db
+from app.dependencies.auth_dependencies import get_current_user
 from app.services.auth_service import create_access_token
+from app.main import get_db
 from app.db.auth_models import User
 
 router = APIRouter()

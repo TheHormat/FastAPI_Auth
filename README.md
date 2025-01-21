@@ -2,4 +2,3 @@
 » Forgot password
 » Password update
 » OTP
-» File Structure
